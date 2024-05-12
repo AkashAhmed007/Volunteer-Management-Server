@@ -26,18 +26,12 @@ async function run() {
     const volunteerNeedsNow = client.db('VolunteerManagement').collection('VolunteerNeedsNow')
     const addVolunteerData = client.db('VolunteerManagement').collection('addVolunteerData')
 
-    app.get('/volunteerneed', async(req,res)=>{
-        const cursor = volunteerNeedsNow.find()
-        const result = await cursor.toArray()
-        res.send(result)
-      }
-    )
     app.get('/addvolunteerdata', async(req,res)=>{
       const cursor = addVolunteerData.find().sort({"startDate": 1})
       const result = await cursor.toArray()
       res.send(result)
-    }
-  )
+    })
+    
     app.post('/addvolunteerdata',async(req,res)=>{
       const volunteerData = req.body
       const result = await addVolunteerData.insertOne(volunteerData)
@@ -50,6 +44,20 @@ async function run() {
       const result = await addVolunteerData.findOne(query)
       res.send(result)
     })
+
+    app.get('/allprogram', async(req,res)=>{
+      const cursor = addVolunteerData.find()
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+    
+    // app.get('/allprogram/:id', async(req,res)=>{
+    //   const id = req.params.id;
+    //   const query = {_id: new ObjectId(id)}
+    //   const result = await addVolunteerData.findOne(query)
+    //   res.send(result)
+    // })
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
