@@ -33,7 +33,7 @@ async function run() {
       }
     )
     app.get('/addvolunteerdata', async(req,res)=>{
-      const cursor = addVolunteerData.find()
+      const cursor = addVolunteerData.find().sort({"startDate": 1})
       const result = await cursor.toArray()
       res.send(result)
     }
