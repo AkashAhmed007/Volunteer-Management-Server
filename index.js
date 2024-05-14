@@ -82,6 +82,42 @@ async function run() {
       res.send(result)
     })
 
+   app.get('/updatepost', async(req,res)=>{
+       const cursor = addVolunteerData.find()
+      const result = await cursor.toArray()
+      res.send(result)
+   })
+  app.get('/updatepost/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await addVolunteerData.findOne(query)
+      res.send(result)
+})
+
+app.put('/updatepost/:id',async(req,res)=>{
+  const id = req.params.id
+  const post = req.body
+  const filter = {_id: new ObjectId(id)}
+  const options = {upsert: true}
+  const updatePost = {
+    $set:{
+      Thumbnail:post.Thumbnail,
+      Title:post.Title,
+      Description:post.Description,
+      Category:post.Category,
+      Location:post.Location,
+      volunteers:post.volunteers,
+      Deadline:post.date,
+      email:post.email,
+      name:post.name
+    }
+  }
+
+  const result = await addVolunteerData.updateOne(filter,updatePost,options)
+  res.send(result)
+})
+
+
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
