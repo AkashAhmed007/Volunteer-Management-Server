@@ -4,7 +4,12 @@ const cors = require("cors")
 require('dotenv').config()
 const port = process.env.PORT || 8000
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-app.use(cors())
+const corsOptions = {
+  origin: ['http://localhost:5173'],
+  credentials: true,
+  optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions))
 app.use(express.json())
 
 app.get('/', (req, res) => {
@@ -67,6 +72,13 @@ async function run() {
     app.post('/requestvolunteer',async(req,res)=>{
       const volunteerData = req.body
       const result = await volunteerNeedsNow.insertOne(volunteerData)
+      res.send(result)
+    })
+
+    app.get('/addvolunteerdataByEmail/:email', async(req,res)=>{
+      const email = req.params.email;
+      const query = {'email' : email};
+      const result = await addVolunteerData.find(query).toArray()
       res.send(result)
     })
 
