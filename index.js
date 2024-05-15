@@ -5,7 +5,7 @@ require('dotenv').config()
 const port = process.env.PORT || 8000
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const corsOptions = {
-  origin: ['http://localhost:5173'],
+  origin: ['https://volunteer-management-server-side.vercel.app','https://volunteer-management-auth.web.app','https://volunteer-management-auth.firebaseapp.com','https://amazing-kringle-c172c8.netlify.app'],
   credentials: true,
   optionSuccessStatus: 200,
 }
@@ -139,7 +139,7 @@ app.delete('/updatepost/:id',async(req,res)=>{
 })
 
 
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     
